@@ -22,7 +22,7 @@ $(function() {
         correct: -1,
         numberCorrect: 0,
         numberIncorrect: 0,
-        totalAnswered: 0,
+        numberUnanswered: 0,
         time: 0,
         runningTimer: false,
         interval: 0,
@@ -47,7 +47,7 @@ $(function() {
             // Timer reached zero without an answer, incorrect
             if(this.time === 0) {
                 this.stopInterval();
-                this.incorrect();
+                this.timeout();
             }
         },
 
@@ -62,9 +62,24 @@ $(function() {
             $('#time').text(this.time);
         },
 
-        // Player gave incorrect answer or ran out of time.
+        toggleView() {
+            $('.question-block').toggleClass('d-none');
+            $('.answer-block').toggleClass('d-none');
+        },
+
+        showResults(){
+            $('.question-block').addClass('d-none');
+            $('.answer-block').addClass('d-none');
+            $('.results-block').toggleClass('d-none');
+        },
+
+        // Player gave incorrect answer
         incorrect() {
             this.numberIncorrect++;
+        },
+
+        timeout() {
+            this.numberUnanswered++;
         },
 
         // Get and Set
@@ -78,8 +93,12 @@ $(function() {
 
     };
 
-    $('#testTimer').click(function () {
-        game.setTimer(30);
-        game.startInterval();
+    $('#toggler').click(function() {
+        game.toggleView();
     });
+
+    $('#results').click(function() {
+        game.showResults();
+    })
+
 });
