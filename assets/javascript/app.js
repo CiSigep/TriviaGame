@@ -14,14 +14,15 @@ $(function() {
 
         questions: [
             {
-                type: "trueFalse",
+                type: "truth",
                 displayType: "True/False",
                 question: "This is a true/fase type question",
                 timeGiven: 15,
-                correctAnswer: 0
+                correctAnswer: 0,
+                answers: ["True", "False"]
             },
             {
-                type: "multipleChoice",
+                type: "multi",
                 displayType: "Multiple Choice",
                 question: "This is a multiple choice type question",
                 timeGiven: 15,
@@ -30,76 +31,38 @@ $(function() {
             }
         ],
 
-        // Map for setting up questions of the specified type. 
-        questionTypes: {
-            trueFalse: {
-                setup(question, gameObject) {
-                    // Set up variables
-                    $('#questionType').text(question.displayType);
-                    $('#question').text(question.question);
-                    gameObject.setTimer(question.timeGiven);
-                    gameObject.setCorrect(question.correctAnswer);
-
-                    // Get the answer area and clear it
-                    var answerArea = $('#answers');
-                    answerArea.empty();
-
-                    var trueBox = $('<div>');
-                    var falseBox = $('<div>');
-
-                    // Set up answers for comparison
-                    trueBox.data("which", 0);
-                    falseBox.data("which", 1);
-
-                    trueBox.addClass('answer-box col-6');
-                    falseBox.addClass('answer-box col-6');
-                    trueBox.text('True');
-                    falseBox.text('False');
-
-                    answerArea.append(trueBox, falseBox);
-
-                    // Add click event to the boxes.
-                    $('.answer-box').click(function(){
-                        gameObject.checkAnswer($(this).data('which'));
-                    });
-
-                    gameObject.startInterval();
-                }
-            },
-        
-            multipleChoice: {
-                setup(question, gameObject) {
-                    $('#questionType').text(question.displayType);
-                    $('#question').text(question.question);
-                    gameObject.setTimer(question.timeGiven);
-                    gameObject.setCorrect(question.correctAnswer);
-
-                    var answerArea = $('#answers');
-                    answerArea.empty();
-
-                    for(var i = 0; i < question.answers.length; i++){
-                        var answerBox = $('<div>');
-                        answerBox.text(question.answers[i]);
-                        answerBox.addClass('answer-box col-12');
-                        answerBox.data('which', i);
-
-                        answerArea.append(answerBox);
-                    }
-
-                    // Add click event to the boxes.
-                    $('.answer-box').click(function(){
-                        gameObject.checkAnswer($(this).data('which'));
-                    });
-
-                    gameObject.startInterval();
-                }
-            }
-        },
-
         // Functions
 
+        // Setup view for question
         questionSetup(test) {
-            this.questionTypes[this.questions[test].type].setup(this.questions[test], this);
+            $('#questionType').text(this.questions[test].displayType);
+            $('#question').text(this.questions[test].question);
+            this.setTimer(this.questions[test].timeGiven);
+            this.setCorrect(this.questions[test].correctAnswer);
+
+            var answerArea = $('#answers');
+            answerArea.empty();
+
+            for(var i = 0; i < this.questions[test].answers.length; i++){
+                var answerBox = $('<div>');
+                answerBox.text(this.questions[test].answers[i]);
+                if(this.questions[test].type === "multi")
+                    answerBox.addClass("col-12");
+                else if(this.questions[test].type === "truth")
+                    answerBox.addClass("col-6");
+                    
+                answerBox.addClass('answer-box');
+                answerBox.data('which', i);
+
+                answerArea.append(answerBox);
+            }
+
+            // Add click event to the boxes.
+            $('.answer-box').click(function(){
+                game.checkAnswer($(this).data('which'));
+            });
+
+            this.startInterval();
         },
     
         // Start the timer if it isn't already running
