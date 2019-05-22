@@ -17,20 +17,28 @@
         <div class="row">
             <h1 class="col-12 text-center mt-3">Trivia</h1>
         </div>
+        <!-- Start Page -->
+        <div class="row start-block">
+            <div class="col-12 text-center">
+                <span class="start">
+                    Start
+                </span>
+            </div>
+        </div>
         <!-- Question Block -->
-        <div class="row question-block">
+        <div class="row question-block d-none">
             <div class="col-12">
                 <h2 id="questionType" class="text-center"></h2>
             </div>
         </div>
-        <div class="row question-block">
+        <div class="row question-block d-none">
             <div class="col-12">
                 <h2 id="question" class="text-center"></h2>
             </div>
         </div>
-        <div id="answers" class="row question-block">
+        <div id="answers" class="row question-block d-none">
         </div>
-        <div class="row question-block">
+        <div class="row question-block d-none">
             <div class="col-12 text-right">Time Left: <span id="time"></span></div>
         </div>
         <!-- Answer Block -->
@@ -58,13 +66,22 @@
             </div>
         </div>
         <div class="row results-block d-none">
-            <div class="col-12"><h3 class="text-center">Correct Answers: <span id="correct"></span></h3></div>
-            <div class="col-12"><h3 class="text-center">Incorrect Answers: <span id="incorrect"></span></h3></div>
-            <div class="col-12"><h3 class="text-center">Unanswered Questions: <span id="unanswered"></span></h3></div>
+            <div class="col-12">
+                <h4 class="text-center">Correct Answers: <span id="correct"></span></h4>
+            </div>
+            <div class="col-12">
+                <h4 class="text-center">Incorrect Answers: <span id="incorrect"></span></h4>
+            </div>
+            <div class="col-12">
+                <h4 class="text-center">Unanswered Questions: <span id="unanswered"></span></h4>
+            </div>
+        </div>
+        <div class="row results-block d-none">
+            <div class="col-12 text-center">
+                <span class="reset">Reset</span>
+            </div>
         </div>
     </div>
-    <button id="truth">True/False</button>
-    <button id="multi">Multiple Choice</button>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 

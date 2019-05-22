@@ -1,3 +1,25 @@
 .answer-box:hover {
     background: blue;
 }
+
+.start {
+    cursor: pointer;
+    font-size: 18pt;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.start:hover {
+    background: green;
+}
+
+.reset {
+    cursor: pointer;
+    font-size: 18pt;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.reset:hover {
+    background: yellow;
+}

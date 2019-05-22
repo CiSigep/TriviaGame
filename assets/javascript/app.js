@@ -4,10 +4,10 @@ var game;
 $(function() {
     game = {
         // Variables
-        correct: -1,
         numberCorrect: 0,
         numberIncorrect: 0,
         numberUnanswered: 0,
+        currentQuestion: null,
         time: 0,
         runningTimer: false,
         interval: 0,
@@ -31,24 +31,35 @@ $(function() {
             }
         ],
 
+        usedQuestions: [],
+
         // Functions
+        start() {
+            this.questionSetup();
+            $('.start-block').toggleClass('d-none');
+            $('.question-block').toggleClass('d-none');
+        },
 
         // Setup view for question
-        questionSetup(test) {
-            $('#questionType').text(this.questions[test].displayType);
-            $('#question').text(this.questions[test].question);
-            this.setTimer(this.questions[test].timeGiven);
-            this.setCorrect(this.questions[test].correctAnswer);
+        questionSetup() {
+            var index = Math.floor(Math.random() * this.questions.length);
+            this.currentQuestion = this.questions[index];
+            this.questions.splice(index, 1);
+            this.usedQuestions.push(this.currentQuestion);
+
+            $('#questionType').text(this.currentQuestion.displayType);
+            $('#question').text(this.currentQuestion.question);
+            this.setTimer(this.currentQuestion.timeGiven);
 
             var answerArea = $('#answers');
             answerArea.empty();
 
-            for(var i = 0; i < this.questions[test].answers.length; i++){
+            for(var i = 0; i < this.currentQuestion.answers.length; i++){
                 var answerBox = $('<div>');
-                answerBox.text(this.questions[test].answers[i]);
-                if(this.questions[test].type === "multi")
+                answerBox.text(this.currentQuestion.answers[i]);
+                if(this.currentQuestion.type === "multi")
                     answerBox.addClass("col-12");
-                else if(this.questions[test].type === "truth")
+                else if(this.currentQuestion.type === "truth")
                     answerBox.addClass("col-6");
                     
                 answerBox.addClass('answer-box');
@@ -62,28 +73,55 @@ $(function() {
                 game.checkAnswer($(this).data('which'));
             });
 
-            this.startInterval();
+            this.startIntervalQuestion();
+        },
+
+        renderAnswer(){
+            $('#correctAnswer').text(this.currentQuestion.answers[this.currentQuestion.correctAnswer]);
+            this.toggleView();
+            this.setTimer(5);
+            this.startIntervalAnswer();
         },
     
         // Start the timer if it isn't already running
-        startInterval() {
+        startIntervalQuestion() {
             if(!this.runningTimer){
                 this.renderTimer();
                 this.interval = setInterval(function() {
-                    game.decrementTimer();
+                    game.decrementTimerQuestion();
                 }, 1000);
+                this.runningTimer = true;
             }
         },
 
-        // Countdown function
-        decrementTimer() {
+        startIntervalAnswer(){
+            this.interval = setInterval(function() {
+                game.decrementTimerAnswer();
+            }, 1000);
+        },
+
+        // Countdown functions
+        decrementTimerQuestion() {
             this.time--;
 
             this.renderTimer();
-            // Timer reached zero without an answer, incorrect
+            // Timer reached zero without an answer
             if(this.time === 0) {
                 this.stopInterval();
                 this.timeout();
+            }
+        },
+
+        decrementTimerAnswer(){
+            this.time--;
+            if(this.time === 0) {
+                this.stopInterval();
+                if(this.questions.length > 0){
+                    this.questionSetup();
+                    this.toggleView();
+                }
+                else
+                    this.showResults();
             }
         },
 
@@ -106,39 +144,72 @@ $(function() {
         showResults(){
             $('.question-block').addClass('d-none');
             $('.answer-block').addClass('d-none');
+        
+            $('#correct').text(this.numberCorrect);
+            $('#incorrect').text(this.numberIncorrect);
+            $('#unanswered').text(this.numberUnanswered);
             $('.results-block').toggleClass('d-none');
         },
 
+        // Checks the players answer against the correct one
         checkAnswer(answer){
+            if(!this.runningTimer)
+                return;
+
             this.stopInterval()
-            if(answer === this.correct)
+            if(answer === this.currentQuestion.correctAnswer){
+                $('#status').text('Correct!');
                 this.numberCorrect++;
-            else
+            }
+            else {
+                $('#status').text('Incorrect!');
                 this.numberIncorrect++;
+            }
+
+            this.renderAnswer();
         },
 
         // Player timed out
         timeout() {
+            $('#status').text('Time is up!');
             this.numberUnanswered++;
+            this.renderAnswer();
+        },
+
+
+        reset() {
+            this.questions = this.usedQuestions;
+            this.usedQuestions = [];
+            this.numberCorrect = 0;
+            this.currentQuestion = null;
+            this.numberIncorrect = 0;
+            this.numberUnanswered = 0;
+            this.time = 0;
+            this.runningTimer = false;
+            this.interval = 0;
+
+            this.showStart();
+        },
+
+        showStart(){
+            $('.results-block').toggleClass('d-none');
+
+            $('.start-block').toggleClass('d-none');
         },
 
         // Get and Set
         setTimer(time) {
             this.time = time;
-        },
-
-        setCorrect(correct) {
-            this.correct = correct;
         }
 
     };
 
-    $('#truth').click(function(){
-        game.questionSetup(0);
+    $('.start').click(function(){
+        game.start();
     });
 
-    $('#multi').click(function(){
-        game.questionSetup(1);
+    $('.reset').click(function(){
+        game.reset();
     });
 
 });
