@@ -76,7 +76,18 @@ $(function() {
             this.startIntervalQuestion();
         },
 
-        renderAnswer(){
+        renderAnswer(isCorrect){
+            var img = $('#resultImage');
+            var select = Math.floor(Math.random() * 3);
+            if(isCorrect){
+                img.attr('src', 'assets/images/correct-' + select + '.gif');
+                img.attr('alt', 'Correct');
+            }
+            else{
+                img.attr('src', 'assets/images/incorrect-' + select + '.gif');
+                img.attr('alt', 'Incorrect');
+            }
+
             $('#correctAnswer').text(this.currentQuestion.answers[this.currentQuestion.correctAnswer]);
             this.toggleView();
             this.setTimer(5);
@@ -157,7 +168,8 @@ $(function() {
                 return;
 
             this.stopInterval()
-            if(answer === this.currentQuestion.correctAnswer){
+            var isCorrect = (answer === this.currentQuestion.correctAnswer);
+            if(isCorrect){
                 $('#status').text('Correct!');
                 this.numberCorrect++;
             }
@@ -166,14 +178,14 @@ $(function() {
                 this.numberIncorrect++;
             }
 
-            this.renderAnswer();
+            this.renderAnswer(isCorrect);
         },
 
         // Player timed out
         timeout() {
             $('#status').text('Time is up!');
             this.numberUnanswered++;
-            this.renderAnswer();
+            this.renderAnswer(false);
         },
 
 

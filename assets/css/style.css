@@ -1,5 +1,56 @@
+@font-face {
+    font-family: Corbel Italic Bold;
+    src: url(../font/Corbel.ttf);
+    font-weight: bold;
+    font-style: italic;
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    background: url(../images/night.png);
+    height: 100%;
+    font-family: Corbel Italic Bold;
+}
+
+h1 {
+    
+    color: #241D7B;
+}
+
+
 .answer-box:hover {
     background: blue;
+}
+
+
+.container{
+    background: white;
+}
+
+.light-transparency {
+    opacity: 0.85;
+}
+
+.mh-200px {
+    max-height: 200px;
+}
+
+.mh-350px {
+    max-height: 350px;
+}
+
+.reset {
+    cursor: pointer;
+    font-size: 18pt;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.reset:hover {
+    background: yellow;
 }
 
 .start {
@@ -13,13 +64,5 @@
     background: green;
 }
 
-.reset {
-    cursor: pointer;
-    font-size: 18pt;
-    padding: 10px;
-    font-weight: 500;
-}
 
-.reset:hover {
-    background: yellow;
-}
+
