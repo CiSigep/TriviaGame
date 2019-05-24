@@ -33,6 +33,7 @@ h1 {
 
 .container{
     background: white;
+    min-height: 725git px;
 }
 
 .light-transparency {
