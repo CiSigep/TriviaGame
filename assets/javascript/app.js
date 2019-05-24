@@ -16,19 +16,84 @@ $(function() {
             {
                 type: "truth",
                 displayType: "True/False",
-                question: "This is a true/fase type question",
+                question: "Duna is the planet the Kerbals are from.",
+                timeGiven: 10,
+                correctAnswer: 1,
+                answers: ["True", "False"]
+            },
+            {
+                type: "multi",
+                displayType: "Multiple Choice",
+                question: "What is the lowest stable circular orbit you can achieve over Kerbin?",
                 timeGiven: 15,
+                correctAnswer: 2,
+                answers: ["100km", "80km", "70km", "150km"]
+            },
+            {
+                type: "truth",
+                displayType: "True/False",
+                question: "Laythe has an atmosphere.",
+                timeGiven: 10,
                 correctAnswer: 0,
                 answers: ["True", "False"]
             },
             {
                 type: "multi",
                 displayType: "Multiple Choice",
-                question: "This is a multiple choice type question",
+                question: "Which one of these is a starting Kerbonaut when you start a new game?",
+                timeGiven: 15,
+                correctAnswer: 1,
+                answers: ["Kim Kerman", "Jebediah Kerman", "Arthur Kerman", "Timothy Kerman"]
+            },
+            {
+                type: "multi",
+                displayType: "Multiple Choice",
+                question: "Which one of these is not a moon of Jool?",
+                timeGiven: 15,
+                correctAnswer: 2,
+                answers: ["Laythe", "Tylo", "Gilly", "Bop"]
+            },
+            {
+                type: "multi",
+                displayType: "Multiple Choice",
+                question: "This planet has a 4.6km hole near its north pole.",
+                timeGiven: 15,
+                correctAnswer: 3,
+                answers: ["Kerbin", "Eeloo", "Duna", "Moho"]
+            },
+            {
+                type: "truth",
+                displayType: "True/False",
+                question: "Jool is a Gas Giant.",
+                timeGiven: 10,
+                correctAnswer: 0,
+                answers: ["True", "False"]
+            },
+            {
+                type: "truth",
+                displayType: "True/False",
+                question: "It is possible to reach Minmus' orbit from its ground level with just the Kerbonaut's jetpack.",
+                timeGiven: 10,
+                correctAnswer: 0,
+                answers: ["True", "False"]
+            },
+            {
+                type: "multi",
+                displayType: "Multiple Choice",
+                question: "How many moons does Kerbin have?",
+                timeGiven: 15,
+                correctAnswer: 1,
+                answers: ["1 moon", "2 moons", "3 moons", "4 moons"]
+            },
+            {
+                type: "multi",
+                displayType: "Multiple Choice",
+                question: "Which of these objects has the lowest gravitational force.",
                 timeGiven: 15,
                 correctAnswer: 0,
-                answers: ["one", "two", "three", "four"]
+                answers: ["Gilly", "Kerbol", "Ike", "Tylo"]
             }
+
         ],
 
         usedQuestions: [],
@@ -62,7 +127,7 @@ $(function() {
                 else if(this.currentQuestion.type === "truth")
                     answerBox.addClass("col-6");
                     
-                answerBox.addClass('answer-box');
+                answerBox.addClass('answer-box p-2 text-center clickable-div');
                 answerBox.data('which', i);
 
                 answerArea.append(answerBox);
@@ -147,11 +212,13 @@ $(function() {
             $('#time').text(this.time);
         },
 
+        // Swaps between the queston and answer views
         toggleView() {
             $('.question-block').toggleClass('d-none');
             $('.answer-block').toggleClass('d-none');
         },
 
+        // Show results.
         showResults(){
             $('.question-block').addClass('d-none');
             $('.answer-block').addClass('d-none');
@@ -188,7 +255,7 @@ $(function() {
             this.renderAnswer(false);
         },
 
-
+        // Reset the quiz
         reset() {
             this.questions = this.usedQuestions;
             this.usedQuestions = [];
@@ -216,11 +283,11 @@ $(function() {
 
     };
 
-    $('.start').click(function(){
+    $('#start').click(function(){
         game.start();
     });
 
-    $('.reset').click(function(){
+    $('#reset').click(function(){
         game.reset();
     });
 

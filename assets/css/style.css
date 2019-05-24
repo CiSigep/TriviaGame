@@ -16,15 +16,20 @@ body {
 }
 
 h1 {
-    
     color: #241D7B;
 }
 
 
-.answer-box:hover {
-    background: blue;
+.clickable-div {
+    cursor: pointer;
+    font-size: 18pt;
+    padding: 10px;
+    font-weight: 500;
 }
 
+.clickable-div:hover {
+    background: #777;
+}
 
 .container{
     background: white;
@@ -42,27 +47,6 @@ h1 {
     max-height: 350px;
 }
 
-.reset {
-    cursor: pointer;
-    font-size: 18pt;
-    padding: 10px;
-    font-weight: 500;
-}
-
-.reset:hover {
-    background: yellow;
-}
-
-.start {
-    cursor: pointer;
-    font-size: 18pt;
-    padding: 10px;
-    font-weight: 500;
-}
-
-.start:hover {
-    background: green;
-}
 
 
 
